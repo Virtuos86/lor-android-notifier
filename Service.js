@@ -1,6 +1,7 @@
 app.LoadScript( 'NetUtils.js' );
 
 var timerId;
+var SETTINGS_PATH = "/data/data/ru.org.linux/shared_prefs/Settings.json";
 var INTERVALS = {
     "1 hour": 3600000,
     "2 hour": 7200000,
@@ -18,17 +19,12 @@ function log( string )
 
 function loadSettings()
 {
-    return JSON.parse( app.ReadFile( "Settings.json" ) );
+	if( !app.FileExists( SETTINGS_PATH ) )
+	{
+		 app.WriteFile( SETTINGS_PATH, '{"username":"","password":"","autoboot":false,"refreshAfter":"30 min"}');
+	};
+    return JSON.parse( app.ReadFile( SETTINGS_PATH ) );
 };
-//function loadSettings()
-//{
-//    return {
-//        "username": app.LoadText( "username", "" ),
-//        "password": app.LoadText( "password", "" ),
-//        "autoboot": app.LoadBoolean( "autoboot", false ),
-//        "refreshAfter": app.LoadText( "refreshAfter", "30 min" ) 
-//    };
-//};
 
 function OnStart()
 {

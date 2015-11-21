@@ -1,5 +1,6 @@
 app.LoadScript( 'NetUtils.js' );
 
+var SETTINGS_PATH = "/data/data/ru.org.linux/shared_prefs/Settings.json";
 var INTERVALS = {
     "1 hour": 3600000,
     "2 hour": 7200000,
@@ -19,31 +20,18 @@ var MESSAGES = {
 
 function loadSettings()
 {
-    return JSON.parse( app.ReadFile( "Settings.json" ) );
+	if( !app.FileExists( SETTINGS_PATH ) )
+	{
+		 app.WriteFile( SETTINGS_PATH, '{"username":"","password":"","autoboot":false,"refreshAfter":"30 min"}');
+	};
+    return JSON.parse( app.ReadFile( SETTINGS_PATH ) );
 };
-//function loadSettings()
-// {
-//    return {
-//        "username": app.LoadText( "username", "" ),
-//        "password": app.LoadText( "password", "" ),
-//        "autoboot": app.LoadBoolean( "autoboot", false ),
-//        "refreshAfter": app.LoadText( "refreshAfter", "30 min" ) 
-//    };
-// };
 
 function storeSettings()
 {
     settings = { "username": username.GetText(), "password": password.GetText(), "autoboot": autoboot.GetChecked(), "refreshAfter": interval.GetText() };
-    app.WriteFile( "Settings.json", JSON.stringify( settings ) );
+    app.WriteFile( SETTINGS_PATH, JSON.stringify( settings ) );
 };
-//function storeSettings()
-// {
-//    settings = { "username": username.GetText(), "password": password.GetText(), "autoboot": autoboot.GetChecked(), "refreshAfter": interval.GetText() };
-//    app.SaveText( "username", settings.username );
-//    app.SaveText( "password", settings.password );
-//    app.SaveBoolean( "autoboot", settings.autoboot );
-//    app.SaveText( "refreshAfter", settings.refreshAfter );
-// };
 
 function OnStart()
 {
