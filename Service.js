@@ -1,7 +1,11 @@
 app.LoadScript( 'NetUtils.js' );
 
 var timerId;
-var SETTINGS_PATH = "/data/data/ru.org.linux/shared_prefs/Settings.json";
+var SETTINGS_PATH;
+if( app.GetAppPath() == "/Assets" )
+    SETTINGS_PATH = "/data/data/ru.org.linux/shared_prefs/Settings.json";
+else
+    SETTINGS_PATH = "Settings.json";
 var INTERVALS = {
     "1 hour": 3600000,
     "2 hour": 7200000,

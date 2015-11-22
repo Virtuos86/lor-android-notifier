@@ -1,6 +1,10 @@
 app.LoadScript( 'NetUtils.js' );
 
-var SETTINGS_PATH = "/data/data/ru.org.linux/shared_prefs/Settings.json";
+var SETTINGS_PATH;
+if( app.GetAppPath() == "/Assets" )
+    SETTINGS_PATH = "/data/data/ru.org.linux/shared_prefs/Settings.json";
+else
+    SETTINGS_PATH = "Settings.json";
 var INTERVALS = {
     "1 hour": 3600000,
     "2 hour": 7200000,
@@ -43,7 +47,8 @@ function OnStart()
     lay.AddChild( btn0 );
     btn0.SetOnTouch( btn_OnLOR);
 
-    username = app.CreateTextEdit( settings.username || "Имя пользователя", 0.6, 0.1 );
+    username = app.CreateTextEdit( settings.username, 0.6, 0.1 );
+    username.SetHint( "Имя пользователя" );
     username.SetMargins( 0, 0.05, 0, 0 );
     username.SetTextSize( 22 );
     if( settings.username == "" )
@@ -51,7 +56,8 @@ function OnStart()
         lay.AddChild( username );
     };
 
-    password = app.CreateTextEdit ( settings.password || "Пароль", 0.6, 0.1 );
+    password = app.CreateTextEdit ( settings.password, 0.6, 0.1 );
+    password.SetHint( "Пароль" );
     password.SetMargins( 0, 0, 0, 0 );
     password.SetTextSize( 22 );
     if( settings.password == "" )
