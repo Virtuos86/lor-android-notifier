@@ -1,4 +1,4 @@
-app.LoadScript( 'NetUtils.js' );
+eval( app.ReadFile( 'NetUtils.js' ) );
 
 var SETTINGS_PATH;
 if( app.GetAppPath() == "/Assets" )
@@ -100,6 +100,10 @@ function OnStart()
     interval.SetOnTouch( interval_OnChange );
     lay.AddChild( interval );
     };
+    if( LOGGED_IN )
+    {
+        svc.SendMessage( "start" );
+     };
 
 function OnServiceReady()
 {
